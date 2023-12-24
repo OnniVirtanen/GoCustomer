@@ -3,6 +3,7 @@ package service
 import (
 	"example.com/backend/core/model/aggregate"
 	"example.com/backend/core/repository"
+	"github.com/google/uuid"
 )
 
 type CustomerService struct {
@@ -27,6 +28,7 @@ func (s *CustomerService) GetAll() ([]aggregate.Customer, error) {
 }
 
 func (s *CustomerService) Save(customer aggregate.Customer) error {
+	customer.Person.ID = uuid.New()
 	s.personRepository.Add(customer)
 	return nil
 }
