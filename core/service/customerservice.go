@@ -32,33 +32,3 @@ func (s *CustomerService) Save(customer aggregate.Customer) error {
 	s.personRepository.Add(customer)
 	return nil
 }
-
-/*
-func (s *FoodService) SaveFood(foodVM *entity.FoodViewModel) (*entity.FoodViewModel, error) {
-
-	var food = entity.Food{
-		UserID:      foodVM.UserID,
-		Title:       foodVM.Title,
-		Description: foodVM.Description,
-		FoodImage:   foodVM.FoodImage,
-	}
-
-	result, err := s.foodRepo.SaveFood(&food)
-
-	if err != nil {
-		return nil, err
-	}
-
-	if result != nil {
-		foodVM = &entity.FoodViewModel{
-			ID:          result.ID,
-			UserID:      result.UserID,
-			Title:       result.Title,
-			Description: result.Description,
-			FoodImage:   result.FoodImage,
-		}
-	}
-
-	return foodVM, nil
-}
-*/

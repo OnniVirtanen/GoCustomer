@@ -1,7 +1,6 @@
 package handler
 
 import (
-	"log"
 	"net/http"
 
 	"example.com/backend/core/model/aggregate"
@@ -22,8 +21,6 @@ func NewCustomerHandler(customerService service.CustomerService) *CustomerHandle
 
 func (handler *CustomerHandler) GetCustomers(c *gin.Context) {
 	var customers, _ = handler.customerService.GetAll()
-	log.Println("handler.GetCustomers customers", customers)
-	log.Println("handler.GetCustomers customers[0].Person", customers[0].Person)
 	c.IndentedJSON(http.StatusOK, customers)
 }
 
@@ -38,11 +35,6 @@ func (handler *CustomerHandler) SaveCustomer(c *gin.Context) {
 
 	var customer aggregate.Customer
 	customer.Person = &person
-
-	// Log the customer object for debugging
-	log.Printf("Customer after binding: %+v\n", customer)
-
-	// Additional validation can be added here to check for nil fields
 
 	// Save the customer
 	if err := handler.customerService.Save(customer); err != nil {
