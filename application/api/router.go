@@ -1,7 +1,7 @@
 package api
 
 import (
-	"example.com/backend/application/api/handler"
+	"example.com/backend/application/handler"
 	"example.com/backend/core/service"
 	"example.com/backend/infrastructure"
 	"github.com/gin-gonic/gin"
@@ -16,5 +16,6 @@ func SetupRouter(router *gin.Engine) {
 	customer := router.Group("v1/customer")
 	{
 		customer.GET("/", customerHandler.GetCustomers)
+		customer.POST("/", customerHandler.SaveCustomer)
 	}
 }
