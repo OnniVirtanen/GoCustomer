@@ -5,6 +5,7 @@ import (
 	"errors"
 
 	"example.com/backend/core/model/aggregate"
+	"github.com/google/uuid"
 )
 
 var (
@@ -20,6 +21,8 @@ var (
 // Has to be able to perform
 type CustomerRepository interface {
 	Get(uuid.UUID) (aggregate.Customer, error)
+	GetAll() []aggregate.Customer
 	Add(aggregate.Customer) error
 	Update(aggregate.Customer) error
+	Delete(uuid.UUID) error
 }

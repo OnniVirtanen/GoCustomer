@@ -6,7 +6,6 @@ import (
 
 type Person struct {
 	ID          uuid.UUID `json:"ID" binding:"required"`
-	SSN         string    `json:"SSN" binding:"required"`
 	FirstName   string    `json:"firstName" binding:"required"`
 	LastName    string    `json:"lastName" binding:"required"`
 	Email       string    `json:"email" binding:"required,email"`
