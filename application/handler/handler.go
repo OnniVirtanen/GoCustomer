@@ -20,12 +20,12 @@ func NewCustomerHandler(customerService service.CustomerService) *CustomerHandle
 	return &customerHandler
 }
 
-func (handler *CustomerHandler) GetCustomers(c *gin.Context) {
-	var customers, _ = handler.customerService.GetAll()
+func (ch *CustomerHandler) GetCustomers(c *gin.Context) {
+	var customers, _ = ch.customerService.GetAll()
 	c.IndentedJSON(http.StatusOK, customers)
 }
 
-func (handler *CustomerHandler) GetCustomer(c *gin.Context) {
+func (ch *CustomerHandler) GetCustomer(c *gin.Context) {
 	// Convert and validate UUID
 	idStr := c.Param("id")
 	id, err := uuid.Parse(idStr)
@@ -34,7 +34,7 @@ func (handler *CustomerHandler) GetCustomer(c *gin.Context) {
 		return
 	}
 
-	customer, err := handler.customerService.Get(id)
+	customer, err := ch.customerService.Get(id)
 
 	if err != nil {
 		// Handle the error, maybe log it and return an appropriate response
@@ -45,7 +45,7 @@ func (handler *CustomerHandler) GetCustomer(c *gin.Context) {
 	c.IndentedJSON(http.StatusOK, customer)
 }
 
-func (handler *CustomerHandler) SaveCustomer(c *gin.Context) {
+func (ch *CustomerHandler) SaveCustomer(c *gin.Context) {
 	var person entity.Person
 
 	// Bind JSON to customer
@@ -58,7 +58,7 @@ func (handler *CustomerHandler) SaveCustomer(c *gin.Context) {
 	customer.Person = &person
 
 	// Save the customer
-	if err := handler.customerService.Save(customer); err != nil {
+	if err := ch.customerService.Save(customer); err != nil {
 		// Handle the error, maybe log it and return an appropriate response
 		return
 	}
@@ -66,7 +66,7 @@ func (handler *CustomerHandler) SaveCustomer(c *gin.Context) {
 	c.JSON(http.StatusAccepted, person)
 }
 
-func (handler *CustomerHandler) UpdateCustomer(c *gin.Context) {
+func (ch *CustomerHandler) UpdateCustomer(c *gin.Context) {
 	// Convert and validate UUID
 	idStr := c.Param("id")
 	id, err := uuid.Parse(idStr)
@@ -86,7 +86,7 @@ func (handler *CustomerHandler) UpdateCustomer(c *gin.Context) {
 	customer.Person = &person
 
 	// Update the customer
-	if err := handler.customerService.Update(customer, id); err != nil {
+	if err := ch.customerService.Update(customer, id); err != nil {
 		// Handle the error, maybe log it and return an appropriate response
 		return
 	}
@@ -94,7 +94,7 @@ func (handler *CustomerHandler) UpdateCustomer(c *gin.Context) {
 	c.JSON(http.StatusAccepted, customer)
 }
 
-func (handler *CustomerHandler) DeleteCustomer(c *gin.Context) {
+func (ch *CustomerHandler) DeleteCustomer(c *gin.Context) {
 	// Convert and validate UUID
 	idStr := c.Param("id")
 	id, err := uuid.Parse(idStr)
@@ -104,7 +104,7 @@ func (handler *CustomerHandler) DeleteCustomer(c *gin.Context) {
 	}
 
 	// Save the customer
-	if err := handler.customerService.Delete(id); err != nil {
+	if err := ch.customerService.Delete(id); err != nil {
 		// Handle the error, maybe log it and return an appropriate response
 		return
 	}

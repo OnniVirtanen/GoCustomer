@@ -16,8 +16,8 @@ func NewCustomerService(customerRepository repository.CustomerRepository) *Custo
 	return &customerService
 }
 
-func (s *CustomerService) GetAll() ([]aggregate.Customer, error) {
-	customers := s.personRepository.GetAll()
+func (cs *CustomerService) GetAll() ([]aggregate.Customer, error) {
+	customers := cs.personRepository.GetAll()
 
 	// If customers slice is nil or empty, return an explicit empty slice
 	if customers == nil || len(customers) == 0 {
@@ -27,22 +27,22 @@ func (s *CustomerService) GetAll() ([]aggregate.Customer, error) {
 	return customers, nil
 }
 
-func (s *CustomerService) Get(id uuid.UUID) (aggregate.Customer, error) {
-	return s.personRepository.Get(id)
+func (cs *CustomerService) Get(id uuid.UUID) (aggregate.Customer, error) {
+	return cs.personRepository.Get(id)
 }
 
-func (s *CustomerService) Save(customer aggregate.Customer) error {
+func (cs *CustomerService) Save(customer aggregate.Customer) error {
 	customer.Person.ID = uuid.New()
-	s.personRepository.Add(customer)
+	cs.personRepository.Add(customer)
 	return nil
 }
 
-func (s *CustomerService) Update(customer aggregate.Customer, id uuid.UUID) error {
-	s.personRepository.Update(customer, id)
+func (cs *CustomerService) Update(customer aggregate.Customer, id uuid.UUID) error {
+	cs.personRepository.Update(customer, id)
 	return nil
 }
 
-func (s *CustomerService) Delete(id uuid.UUID) error {
-	s.personRepository.Delete(id)
+func (cs *CustomerService) Delete(id uuid.UUID) error {
+	cs.personRepository.Delete(id)
 	return nil
 }
