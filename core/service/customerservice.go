@@ -43,6 +43,5 @@ func (cs *CustomerService) Update(customer aggregate.Customer, id uuid.UUID) err
 }
 
 func (cs *CustomerService) Delete(id uuid.UUID) error {
-	cs.personRepository.Delete(id)
-	return nil
+	return cs.personRepository.Delete(id)
 }

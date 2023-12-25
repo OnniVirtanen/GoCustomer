@@ -106,6 +106,7 @@ func (ch *CustomerHandler) DeleteCustomer(c *gin.Context) {
 	// Save the customer
 	if err := ch.customerService.Delete(id); err != nil {
 		// Handle the error, maybe log it and return an appropriate response
+		c.AbortWithError(http.StatusNotFound, err)
 		return
 	}
 

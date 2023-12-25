@@ -2,9 +2,11 @@ package infrastructure
 
 import (
 	"database/sql"
+	"fmt"
 
 	"example.com/backend/core/model/aggregate"
 	"example.com/backend/core/model/entity"
+	"example.com/backend/core/repository"
 	"github.com/google/uuid"
 )
 
@@ -134,7 +136,21 @@ func (cr *CustomerRepository) Update(customer aggregate.Customer, id uuid.UUID) 
 
 // Delete removes a customer from the database.
 func (cr *CustomerRepository) Delete(id uuid.UUID) error {
-	query := "DELETE FROM person WHERE id = ?"
-	_, err := cr.DB.Exec(query, id)
+	// Check for the existence of the customer
+	var exists int
+	checkQuery := "SELECT 1 FROM person WHERE id = ?"
+	err := cr.DB.QueryRow(checkQuery, id).Scan(&exists)
+
+	if err == sql.ErrNoRows {
+		// Customer does not exist
+		return fmt.Errorf("customer does not exist: %w", repository.ErrCustomerNotFound)
+	} else if err != nil {
+		// Some other error occurred
+		return err
+	}
+
+	// Delete the customer
+	deleteQuery := "DELETE FROM person WHERE id = ?"
+	_, err = cr.DB.Exec(deleteQuery, id)
 	return err
 }
