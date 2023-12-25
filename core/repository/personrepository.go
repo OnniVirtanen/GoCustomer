@@ -18,7 +18,7 @@ var (
 // Has to be able to perform
 type CustomerRepository interface {
 	Get(uuid.UUID) (aggregate.Customer, error)
-	GetAll() []aggregate.Customer
+	GetAll() ([]aggregate.Customer, error)
 	Add(aggregate.Customer) error
 	Update(aggregate.Customer, uuid.UUID) error
 	Delete(uuid.UUID) error

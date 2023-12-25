@@ -1,15 +1,17 @@
 package api
 
 import (
+	"database/sql"
+
 	"example.com/backend/application/handler"
 	"example.com/backend/core/service"
 	"example.com/backend/infrastructure"
 	"github.com/gin-gonic/gin"
 )
 
-func SetupRouter(router *gin.Engine) {
+func SetupRouter(router *gin.Engine, db *sql.DB) {
 
-	customerRepository := infrastructure.NewCustomerMemoryRepository()
+	customerRepository := infrastructure.NewCustomerRepository(db) //infrastructure.NewCustomerMemoryRepository()
 	customerService := service.NewCustomerService(customerRepository)
 	customerHandler := handler.NewCustomerHandler(*customerService)
 

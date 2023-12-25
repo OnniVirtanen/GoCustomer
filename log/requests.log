@@ -42,3 +42,10 @@
 2023/12/25 15:04:10 IP: ::1, Method: GET, Endpoint: /v1/customer/98a2e48f-0d8f-472d-a9bd-1ddac3f9547b
 2023/12/25 15:09:02 IP: ::1, Method: GET, Endpoint: /v1/customer/98a2e48f-0d8f-472d-a9bd-1ddac3f9547b2023/12/25 17:25:45 IP: ::1, Method: GET, Endpoint: /v1/customer/98a2e48f-0d8f-472d-a9bd-1ddac3f9547b
 2023/12/25 17:25:49 IP: ::1, Method: POST, Endpoint: /v1/customer/
+2023/12/25 18:05:52 IP: ::1, Method: POST, Endpoint: /v1/customer/
+2023/12/25 18:06:00 IP: ::1, Method: GET, Endpoint: /v1/customer/98a2e48f-0d8f-472d-a9bd-1ddac3f9547b
+2023/12/25 18:06:08 IP: ::1, Method: GET, Endpoint: /v1/customer/
+2023/12/25 18:09:37 IP: ::1, Method: GET, Endpoint: /v1/customer/
+2023/12/25 18:09:43 IP: ::1, Method: POST, Endpoint: /v1/customer/
+2023/12/25 18:10:00 IP: ::1, Method: POST, Endpoint: /v1/customer/
+2023/12/25 18:10:03 IP: ::1, Method: GET, Endpoint: /v1/customer/

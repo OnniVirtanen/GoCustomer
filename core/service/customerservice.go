@@ -17,7 +17,7 @@ func NewCustomerService(customerRepository repository.CustomerRepository) *Custo
 }
 
 func (cs *CustomerService) GetAll() ([]aggregate.Customer, error) {
-	customers := cs.personRepository.GetAll()
+	customers, _ := cs.personRepository.GetAll()
 
 	// If customers slice is nil or empty, return an explicit empty slice
 	if customers == nil || len(customers) == 0 {

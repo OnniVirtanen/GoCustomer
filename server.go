@@ -14,7 +14,7 @@ import (
 	"github.com/joho/godotenv"
 )
 
-func initDatabase() {
+func initDatabase() *sql.DB {
 	fmt.Println("Starting sql-driver...")
 
 	// Use an environment variable for the database connection string.
@@ -35,14 +35,11 @@ func initDatabase() {
 		log.Fatalf("Error connecting to the database: %v", err)
 	}
 
-	// defer the close till after the main function has finished
-	// executing
-	defer db.Close()
-
 	fmt.Println("Successfully connected to the database")
+	return db
 }
 
-func initRouter() {
+func initRouter(db *sql.DB) {
 	router := gin.Default()
 
 	// Open a file for logging
@@ -59,7 +56,7 @@ func initRouter() {
 	router.Use(middleware.RequestLoggerMiddleware(logger))
 
 	// Setup the API routes
-	api.SetupRouter(router)
+	api.SetupRouter(router, db)
 
 	// Use an environment variable for the database connection string.
 	serverPort := os.Getenv("SERVER_PORT")
@@ -77,6 +74,9 @@ func main() {
 		log.Fatal("Error loading .env file")
 	}
 
+	db := initDatabase()
+	defer db.Close()
+
 	initDatabase()
-	initRouter()
+	initRouter(db)
 }
