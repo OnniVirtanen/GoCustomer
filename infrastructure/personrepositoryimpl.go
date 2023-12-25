@@ -76,13 +76,14 @@ func (mr *MemoryRepository) Add(c aggregate.Customer) error {
 }
 
 // Update will replace an existing customer information with the new customer information
-func (mr *MemoryRepository) Update(c aggregate.Customer) error {
+func (mr *MemoryRepository) Update(c aggregate.Customer, id uuid.UUID) error {
 	// Make sure Customer is in the repository
-	if _, ok := mr.customers[c.Person.ID]; !ok {
+	if _, ok := mr.customers[id]; !ok {
 		return fmt.Errorf("customer does not exist: %w", repository.ErrUpdateCustomer)
 	}
+	c.Person.ID = id
 	mr.Lock()
-	mr.customers[c.Person.ID] = c
+	mr.customers[id] = c
 	mr.Unlock()
 	return nil
 }

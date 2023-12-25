@@ -16,6 +16,9 @@ func SetupRouter(router *gin.Engine) {
 	customer := router.Group("v1/customer")
 	{
 		customer.GET("/", customerHandler.GetCustomers)
+		customer.GET("/:id", customerHandler.GetCustomer)
 		customer.POST("/", customerHandler.SaveCustomer)
+		customer.PUT("/:id", customerHandler.UpdateCustomer)
+		customer.DELETE("/:id", customerHandler.DeleteCustomer)
 	}
 }

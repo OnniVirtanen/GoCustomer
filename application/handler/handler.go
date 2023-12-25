@@ -7,6 +7,7 @@ import (
 	"example.com/backend/core/model/entity"
 	"example.com/backend/core/service"
 	"github.com/gin-gonic/gin"
+	"github.com/google/uuid"
 )
 
 type CustomerHandler struct {
@@ -22,6 +23,26 @@ func NewCustomerHandler(customerService service.CustomerService) *CustomerHandle
 func (handler *CustomerHandler) GetCustomers(c *gin.Context) {
 	var customers, _ = handler.customerService.GetAll()
 	c.IndentedJSON(http.StatusOK, customers)
+}
+
+func (handler *CustomerHandler) GetCustomer(c *gin.Context) {
+	// Convert and validate UUID
+	idStr := c.Param("id")
+	id, err := uuid.Parse(idStr)
+	if err != nil {
+		c.AbortWithError(http.StatusBadRequest, err)
+		return
+	}
+
+	customer, err := handler.customerService.Get(id)
+
+	if err != nil {
+		// Handle the error, maybe log it and return an appropriate response
+		c.AbortWithError(http.StatusBadRequest, err)
+		return
+	}
+
+	c.IndentedJSON(http.StatusOK, customer)
 }
 
 func (handler *CustomerHandler) SaveCustomer(c *gin.Context) {
@@ -43,4 +64,50 @@ func (handler *CustomerHandler) SaveCustomer(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusAccepted, person)
+}
+
+func (handler *CustomerHandler) UpdateCustomer(c *gin.Context) {
+	// Convert and validate UUID
+	idStr := c.Param("id")
+	id, err := uuid.Parse(idStr)
+	if err != nil {
+		c.AbortWithError(http.StatusBadRequest, err)
+		return
+	}
+	var person entity.Person
+
+	// Bind JSON to customer
+	if err := c.BindJSON(&person); err != nil {
+		c.AbortWithError(http.StatusBadRequest, err)
+		return
+	}
+
+	var customer aggregate.Customer
+	customer.Person = &person
+
+	// Update the customer
+	if err := handler.customerService.Update(customer, id); err != nil {
+		// Handle the error, maybe log it and return an appropriate response
+		return
+	}
+
+	c.JSON(http.StatusAccepted, customer)
+}
+
+func (handler *CustomerHandler) DeleteCustomer(c *gin.Context) {
+	// Convert and validate UUID
+	idStr := c.Param("id")
+	id, err := uuid.Parse(idStr)
+	if err != nil {
+		c.AbortWithError(http.StatusBadRequest, err)
+		return
+	}
+
+	// Save the customer
+	if err := handler.customerService.Delete(id); err != nil {
+		// Handle the error, maybe log it and return an appropriate response
+		return
+	}
+
+	c.Status(http.StatusOK)
 }

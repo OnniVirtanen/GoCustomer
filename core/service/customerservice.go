@@ -27,8 +27,22 @@ func (s *CustomerService) GetAll() ([]aggregate.Customer, error) {
 	return customers, nil
 }
 
+func (s *CustomerService) Get(id uuid.UUID) (aggregate.Customer, error) {
+	return s.personRepository.Get(id)
+}
+
 func (s *CustomerService) Save(customer aggregate.Customer) error {
 	customer.Person.ID = uuid.New()
 	s.personRepository.Add(customer)
+	return nil
+}
+
+func (s *CustomerService) Update(customer aggregate.Customer, id uuid.UUID) error {
+	s.personRepository.Update(customer, id)
+	return nil
+}
+
+func (s *CustomerService) Delete(id uuid.UUID) error {
+	s.personRepository.Delete(id)
 	return nil
 }
