@@ -9,7 +9,7 @@ import (
 
 func SetupRouter(router *gin.Engine) {
 
-	customerRepository := infrastructure.NewCustomerRepository()
+	customerRepository := infrastructure.NewCustomerMemoryRepository()
 	customerService := service.NewCustomerService(customerRepository)
 	customerHandler := handler.NewCustomerHandler(*customerService)
 
@@ -21,4 +21,19 @@ func SetupRouter(router *gin.Engine) {
 		customer.PUT("/:id", customerHandler.UpdateCustomer)
 		customer.DELETE("/:id", customerHandler.DeleteCustomer)
 	}
+
+	/*
+		productRepository := infrastructure.NewProductRepository()
+		productService := service.NewProductService(productRepository)
+		productHandler := handler.NewProductHandler(*productService)
+
+		product := router.Group("v1/product")
+		{
+			product.GET("/", productHandler.GetProducts)
+			product.GET("/:id", productHandler.getProduct)
+			product.POST("/", productHandler.SaveProduct)
+			product.PUT("/:id", productHandler.UpdateProduct)
+			product.DELETE("/:id", productHandler.DeleteProduct)
+		}
+	*/
 }

@@ -18,7 +18,7 @@ type MemoryRepository struct {
 }
 
 // New is a factory function to generate a new repository of customers
-func NewCustomerRepository() *MemoryRepository {
+func NewCustomerMemoryRepository() *MemoryRepository {
 	return &MemoryRepository{
 		customers: make(map[uuid.UUID]aggregate.Customer),
 	}
