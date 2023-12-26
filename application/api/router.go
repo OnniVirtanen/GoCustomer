@@ -11,7 +11,8 @@ import (
 
 func SetupRouter(router *gin.Engine, db *sql.DB) {
 
-	customerRepository := infrastructure.NewCustomerRepository(db) //infrastructure.NewCustomerMemoryRepository()
+	// Customer
+	customerRepository := infrastructure.NewCustomerRepository(db)
 	customerService := service.NewCustomerService(customerRepository)
 	customerHandler := handler.NewCustomerHandler(*customerService)
 
@@ -24,18 +25,18 @@ func SetupRouter(router *gin.Engine, db *sql.DB) {
 		customer.DELETE("/:id", customerHandler.DeleteCustomer)
 	}
 
-	/*
-		productRepository := infrastructure.NewProductRepository()
-		productService := service.NewProductService(productRepository)
-		productHandler := handler.NewProductHandler(*productService)
+	// Product
+	productRepository := infrastructure.NewProductRepository(db)
+	productService := service.NewProductService(productRepository)
+	productHandler := handler.NewProductHandler(*productService)
 
-		product := router.Group("v1/product")
-		{
-			product.GET("/", productHandler.GetProducts)
-			product.GET("/:id", productHandler.getProduct)
-			product.POST("/", productHandler.SaveProduct)
-			product.PUT("/:id", productHandler.UpdateProduct)
-			product.DELETE("/:id", productHandler.DeleteProduct)
-		}
-	*/
+	product := router.Group("v1/product")
+	{
+		product.GET("/", productHandler.GetProducts)
+		product.GET("/:id", productHandler.GetProduct)
+		product.POST("/", productHandler.SaveProduct)
+		product.PUT("/:id", productHandler.UpdateProduct)
+		product.DELETE("/:id", productHandler.DeleteProduct)
+	}
+
 }

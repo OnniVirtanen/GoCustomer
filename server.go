@@ -24,7 +24,7 @@ func initDatabase() *sql.DB {
 	}
 
 	// Open up our database connection.
-	db, err := sql.Open("mysql", dbConnectionString)
+	db, err := sql.Open("mysql", dbConnectionString+"?parseTime=true")
 	if err != nil {
 		log.Fatalf("Error opening database connection: %v", err)
 	}
