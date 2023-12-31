@@ -3,6 +3,7 @@ package handler
 import (
 	"net/http"
 
+	"example.com/backend/application/auth"
 	"example.com/backend/core/model/entity"
 	"example.com/backend/core/service"
 	"github.com/gin-gonic/gin"
@@ -45,6 +46,9 @@ func (h *ProductHandler) GetProduct(c *gin.Context) {
 }
 
 func (h *ProductHandler) SaveProduct(c *gin.Context) {
+	if !auth.IsAuthorized(c) {
+		return
+	}
 	var product entity.Product
 
 	// Bind JSON to product
@@ -64,6 +68,9 @@ func (h *ProductHandler) SaveProduct(c *gin.Context) {
 }
 
 func (h *ProductHandler) UpdateProduct(c *gin.Context) {
+	if !auth.IsAuthorized(c) {
+		return
+	}
 	// Convert and validate UUID
 	idStr := c.Param("id")
 	id, err := uuid.Parse(idStr)
@@ -89,6 +96,9 @@ func (h *ProductHandler) UpdateProduct(c *gin.Context) {
 }
 
 func (h *ProductHandler) DeleteProduct(c *gin.Context) {
+	if !auth.IsAuthorized(c) {
+		return
+	}
 	// Convert and validate UUID
 	idStr := c.Param("id")
 	id, err := uuid.Parse(idStr)
