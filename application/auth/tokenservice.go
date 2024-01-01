@@ -4,11 +4,9 @@ import (
 	"encoding/hex"
 	"fmt"
 	"log"
-	"net/http"
 	"os"
 	"time"
 
-	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v5"
 	"github.com/joho/godotenv"
 )
@@ -60,23 +58,4 @@ func verifyToken(tokenString string) error {
 		return fmt.Errorf("Invalid token")
 	}
 	return nil
-}
-
-func IsAuthorized(c *gin.Context) bool {
-	c.Writer.Header().Set("Content-Type", "application/json")
-	tokenString := c.Request.Header.Get("Authorization")
-	if tokenString == "" {
-		c.Writer.WriteHeader(http.StatusUnauthorized)
-		fmt.Fprint(c.Writer, "Missing authorization header")
-		return false
-	}
-	tokenString = tokenString[len("Bearer "):]
-
-	err := verifyToken(tokenString)
-	if err != nil {
-		c.Writer.WriteHeader(http.StatusUnauthorized)
-		fmt.Fprint(c.Writer, "Invalid token")
-		return false
-	}
-	return true
 }

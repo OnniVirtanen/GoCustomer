@@ -3,6 +3,7 @@ package api
 import (
 	"database/sql"
 
+	"example.com/backend/application/auth"
 	"example.com/backend/application/handler"
 	"example.com/backend/core/service"
 	"example.com/backend/infrastructure"
@@ -16,10 +17,13 @@ func SetupProductRouter(router *gin.Engine, db *sql.DB) {
 
 	product := router.Group("v1/product")
 	{
+		// Public routes
 		product.GET("/", productHandler.GetProducts)
 		product.GET("/:id", productHandler.GetProduct)
-		product.POST("/", productHandler.SaveProduct)
-		product.PUT("/:id", productHandler.UpdateProduct)
-		product.DELETE("/:id", productHandler.DeleteProduct)
+
+		// Authorized routes
+		product.POST("/", auth.IsAuthorized, productHandler.SaveProduct)
+		product.PUT("/:id", auth.IsAuthorized, productHandler.UpdateProduct)
+		product.DELETE("/:id", auth.IsAuthorized, productHandler.DeleteProduct)
 	}
 }
