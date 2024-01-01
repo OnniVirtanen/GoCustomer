@@ -4,6 +4,10 @@
     justify-content: space-between;
 }
 
+#header-app-name:hover {
+    cursor: pointer;
+}
+
 .center {
     display: flex;
     align-items: center;
