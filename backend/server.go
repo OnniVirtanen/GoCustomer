@@ -42,6 +42,9 @@ func initDatabase() *sql.DB {
 func initRouter(db *sql.DB) {
 	router := gin.Default()
 
+	// Use the CORS middleware
+	router.Use(middleware.CorsMiddleware())
+
 	// Open a file for logging
 	file, err := os.OpenFile("log/requests.log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
 	if err != nil {
@@ -52,7 +55,7 @@ func initRouter(db *sql.DB) {
 	// Create a new logger instance
 	logger := log.New(file, "", log.LstdFlags)
 
-	// Register the middleware
+	// Register the logger middleware
 	router.Use(middleware.RequestLoggerMiddleware(logger))
 
 	// Setup the API routes
@@ -77,6 +80,5 @@ func main() {
 	db := initDatabase()
 	defer db.Close()
 
-	initDatabase()
 	initRouter(db)
 }

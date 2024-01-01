@@ -50,8 +50,9 @@ func (h *AuthHandler) LoginUser(c *gin.Context) {
 	if err != nil {
 		c.Writer.WriteHeader(http.StatusInternalServerError)
 	}
-	c.Writer.WriteHeader(http.StatusOK)
-	c.Writer.Write([]byte(tokenString))
+
+	tokenJson := TokenResponse{tokenString}
+	c.IndentedJSON(http.StatusOK, tokenJson)
 }
 
 func (h *AuthHandler) RegisterUser(c *gin.Context) {
